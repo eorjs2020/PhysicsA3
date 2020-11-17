@@ -186,9 +186,9 @@ void PlayScene::GUI_Function() const
 	
 	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
-	if(ImGui::Button("My Button"))
+	if(ImGui::Button("Scene 2"))
 	{
-		std::cout << "My Button Pressed" << std::endl;
+		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 
 	ImGui::Separator();

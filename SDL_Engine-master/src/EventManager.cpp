@@ -288,6 +288,12 @@ bool EventManager::isIMGUIActive()
     return m_isIMGUIActive;
 }
 
+void EventManager::IMGUIActive(bool a)
+{
+    m_isIMGUIActive = a; 
+}
+
+
 EventManager::EventManager():
     m_isIMGUIActive(false), m_keyStates(nullptr), m_mouseWheel(0), m_isActive(true), m_io(ImGui::GetIO())
 {

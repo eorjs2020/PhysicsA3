@@ -40,7 +40,9 @@ public:
 
 	//IMGUI
 	bool isIMGUIActive();
-	
+	void IMGUIActive(bool a); 
+
+
 private:
 	// Hide Constructor and Destructor 
 	EventManager();
