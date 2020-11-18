@@ -125,12 +125,9 @@ void PlayScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 	
+	// Background load
 	TextureManager::Instance()->load("../Assets/textures/field.png", "background");
-
-	// Plane Sprite
 	
-	
-
 	// Player Sprite
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
@@ -138,19 +135,11 @@ void PlayScene::start()
 	
 	// Bullet Pool
 	poolTemp = new BulletPool(10);
-	//for (auto i = 0; i < 10; ++i)
-	//{
-	//	Bullet* bullet = poolTemp->Spawn();
-	//	addChild(bullet);
-	//	bullet->getTransform()->position = glm::vec2(100 * i + 30, 0);
-	//}
-
 	
 
 	/* Instructions Label */
 	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
-
 	addChild(m_pInstructionsLabel);
 }
 
