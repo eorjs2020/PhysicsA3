@@ -25,12 +25,22 @@ void PlayScene::draw()
 	}
 
 	drawDisplayList();
+	poolTemp->Draw();
 	SDL_SetRenderDrawColor(Renderer::Instance()->getRenderer(), 255, 255, 255, 255);
 }
 
 void PlayScene::update()
 {
 	updateDisplayList();
+	poolTemp->Update();
+	float const deltaTime = 1.f / 60.f;
+
+	if (timer > deltaTime*50) {
+		timer = 0;
+		poolTemp->Spawn();
+	}
+	timer += deltaTime;
+
 }
 
 void PlayScene::clean()
@@ -80,11 +90,15 @@ void PlayScene::handleEvents()
 		{
 			m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
 			m_playerFacingRight = false;
+			if(m_pPlayer->getTransform()->position.x > 26.5f)
+				m_pPlayer->getTransform()->position += glm::vec2(-2, 0);
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
 			m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
 			m_playerFacingRight = true;
+			if (m_pPlayer->getTransform()->position.x < 773.5f)
+				m_pPlayer->getTransform()->position += glm::vec2(2, 0);
 		}
 		else
 		{
@@ -114,13 +128,22 @@ void PlayScene::start()
 	TextureManager::Instance()->load("../Assets/textures/field.png", "background");
 
 	// Plane Sprite
-	m_pPlaneSprite = new Plane();
-	addChild(m_pPlaneSprite);
+	
+	
 
 	// Player Sprite
 	m_pPlayer = new Player();
 	addChild(m_pPlayer);
 	m_playerFacingRight = true;
+	
+	// Bullet Pool
+	poolTemp = new BulletPool(10);
+	//for (auto i = 0; i < 10; ++i)
+	//{
+	//	Bullet* bullet = poolTemp->Spawn();
+	//	addChild(bullet);
+	//	bullet->getTransform()->position = glm::vec2(100 * i + 30, 0);
+	//}
 
 	
 

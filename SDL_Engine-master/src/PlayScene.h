@@ -3,7 +3,7 @@
 #define __PLAY_SCENE__
 
 #include "Scene.h"
-#include "Plane.h"
+#include "BulletPool.h"
 #include "Player.h"
 #include "Button.h"
 #include "Label.h"
@@ -27,10 +27,11 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
-	Plane* m_pPlaneSprite;
+	float timer;
 	Player* m_pPlayer;
 	bool m_playerFacingRight;
-
+	BulletPool* poolTemp;
+	// UI Items
 	Label* m_pInstructionsLabel;
 };
 
