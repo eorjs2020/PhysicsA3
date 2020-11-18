@@ -27,7 +27,7 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
-	
+	float timer;
 	Player* m_pPlayer;
 	bool m_playerFacingRight;
 	BulletPool* poolTemp;

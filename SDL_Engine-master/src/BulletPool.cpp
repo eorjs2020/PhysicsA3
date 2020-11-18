@@ -5,8 +5,8 @@ BulletPool::BulletPool(unsigned int size)
 {
 	
 	for (int i = 0; i < size; i++) {
-		active.push_back(new Bullet(this));
-		active[i]->getTransform()->position = glm::vec2(100 * i + 30, 0);
+		deactive.push_back(new Bullet(this));
+		deactive[i]->getTransform()->position = glm::vec2(100 * i + 30, i*5);
 	}
 	
 	
@@ -19,48 +19,49 @@ void BulletPool::Draw()
 		for (auto i = 0; i < active.size(); ++i)
 		{
 			active[i]->draw();
-			std::cout << i;
 		}
 	}
+
 }
 
-Bullet* BulletPool::Spawn() {
-	Bullet* bullet = nullptr;
-	if (deactive.size() > 0) {
-		bullet = deactive.back();
-		bullet->active = true;
+void BulletPool::Spawn() {
+	if (!deactive.empty()) {
+		active.push_back(deactive.back());
+		active.back()->active = true;
+		active.back()->Reset();
 		deactive.pop_back();
-		active.push_back(bullet);
 	}
-	
-	return bullet;
+
 }
 
 void BulletPool::Update() {
 	if (active.size() > 0) {
-		for (auto i = 0; i < active.size(); ++i)
+		for (int i = 0; i < active.size(); ++i)
 		{
 			active[i]->update();
 		}
 	}
-
+	
+	
+	std::cout << "Active : " << active.size() << " Deactive : " << deactive.size() << std::endl;
+	
 }
 
 void BulletPool::Despawn(Bullet* bullet)
 {
-	deactive.push_back(bullet);
 	
-	for (auto i = 0; i < active.size(); ++i)
+	
+	for (int i = 0; i < active.size(); ++i)
 	{
 		if (bullet == active.at(i)) {
-			delete active[i];
-			active[i] = nullptr;
-			active.erase(remove(active.begin(), active.end(), nullptr), active.end());
-			active.shrink_to_fit();
-			return;
+			if (!active.empty())
+			{
+				deactive.push_back(active[i]);
+			    active[i] = active.back();
+				active.pop_back();
+				return;
+			}
 		}
 	}
-	Spawn();
-	
 }
 

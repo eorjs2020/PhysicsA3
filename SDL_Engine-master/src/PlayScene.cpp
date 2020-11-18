@@ -31,6 +31,14 @@ void PlayScene::update()
 {
 	updateDisplayList();
 	poolTemp->Update();
+	float const deltaTime = 1.f / 60.f;
+
+	if (timer > deltaTime*50) {
+		timer = 0;
+		poolTemp->Spawn();
+	}
+	timer += deltaTime;
+
 }
 
 void PlayScene::clean()
@@ -80,11 +88,15 @@ void PlayScene::handleEvents()
 		{
 			m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
 			m_playerFacingRight = false;
+			if(m_pPlayer->getTransform()->position.x > 26.5f)
+				m_pPlayer->getTransform()->position += glm::vec2(-2, 0);
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
 			m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
 			m_playerFacingRight = true;
+			if (m_pPlayer->getTransform()->position.x < 773.5f)
+				m_pPlayer->getTransform()->position += glm::vec2(2, 0);
 		}
 		else
 		{

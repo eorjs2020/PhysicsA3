@@ -14,7 +14,7 @@ public:
 	int size;
 	int index = 0;
 	void Draw();
-	Bullet* Spawn();
+	void Spawn();
 	void Despawn(Bullet* p);
 private:	
 	std::vector<Bullet*> active;

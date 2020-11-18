@@ -14,8 +14,8 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
-	
-	bool active = true;
+	void Reset();
+	bool active = false;
 	bool dead = false;
 private:
 	void m_buildAnimations();

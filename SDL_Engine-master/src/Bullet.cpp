@@ -4,18 +4,11 @@
 
 Bullet::Bullet(BulletPool* p)
 {
-	TextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png", 
-		"spritesheet");
+	TextureManager::Instance()->load("../Assets/textures/bullet.png", "bullet");
+	auto size = TextureManager::Instance()->getTextureSize("bullet");
 
-	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
-
-	// set frame width
-	setWidth(65);
-
-	// set frame height
-	setHeight(65);
+	setWidth(size.x);
+	setHeight(size.y);
 
 	getTransform()->position = glm::vec2(400.0f, 50.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -23,7 +16,7 @@ Bullet::Bullet(BulletPool* p)
 	getRigidBody()->isColliding = false;
 	setType(PLANE);
 
-	m_buildAnimations();
+	
 	pool = p;
 }
 
@@ -38,9 +31,7 @@ void Bullet::draw()
 		const auto y = getTransform()->position.y;
 
 		// draw the plane sprite with simple propeller animation
-		TextureManager::Instance()->playAnimation(
-			"spritesheet", getAnimation("plane"),
-			x, y, 0.5f, 0, 255, true);
+		TextureManager::Instance()->draw("bullet", x, y, 0.f, 255, true);
 	}
 }
 
@@ -51,11 +42,10 @@ void Bullet::update()
 		getRigidBody()->acceleration = glm::vec2(0, 9.8);
 		getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime);
 		getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
-		if (getTransform()->position.y > 100) {
+		if (getTransform()->position.y >= 650) {
 			active = false;
 			pool->Despawn(this);
-			
-			
+			Reset();			
 		}
 	}
 
@@ -63,6 +53,12 @@ void Bullet::update()
 
 void Bullet::clean()
 {
+}
+
+void Bullet::Reset()
+{
+	getRigidBody()->velocity = glm::vec2(0, 0);
+	getTransform()->position = glm::vec2(getTransform()->position.x, 10);
 }
 
 void Bullet::m_buildAnimations()
