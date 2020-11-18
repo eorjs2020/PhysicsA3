@@ -20,7 +20,7 @@ EndScene::~EndScene()
 
 void EndScene::draw()
 {
-
+	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
 	if (EventManager::Instance().isIMGUIActive())
 	{
 		GUI_Function();
@@ -49,14 +49,11 @@ void EndScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
-	{
-		TheGame::Instance()->changeSceneState(PLAY_SCENE);
-	}
 }
 
 void EndScene::start()
 {
+	TextureManager::Instance()->load("../Assets/textures/field.png", "background");
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 

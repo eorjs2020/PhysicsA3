@@ -31,9 +31,6 @@ private:
 	Player* m_pPlayer;
 	bool m_playerFacingRight;
 
-	// UI Items
-	Button* m_pBackButton;
-	Button* m_pNextButton;
 	Label* m_pInstructionsLabel;
 };
 
