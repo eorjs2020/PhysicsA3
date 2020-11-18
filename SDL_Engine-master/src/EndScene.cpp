@@ -4,6 +4,12 @@
 #include "glm/gtx/string_cast.hpp"
 #include "EventManager.h"
 
+// required for IMGUI
+#include "imgui.h"
+#include "imgui_sdl.h"
+#include "Renderer.h"
+
+
 EndScene::EndScene()
 {
 	EndScene::start();
@@ -14,6 +20,12 @@ EndScene::~EndScene()
 
 void EndScene::draw()
 {
+	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
+	if (EventManager::Instance().isIMGUIActive())
+	{
+		GUI_Function();
+	}
+
 	drawDisplayList();
 }
 
@@ -31,46 +43,54 @@ void EndScene::handleEvents()
 {
 	EventManager::Instance().update();
 
-	// Button Events
-	m_pRestartButton->update();
-
 	// Keyboard Events
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
 		TheGame::Instance()->quit();
 	}
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
-	{
-		TheGame::Instance()->changeSceneState(PLAY_SCENE);
-	}
 }
 
 void EndScene::start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_label = new Label("END SCENE", "Dock51", 80, blue, glm::vec2(400.0f, 40.0f));
-	m_label->setParent(this);
-	addChild(m_label);
+	TextureManager::Instance()->load("../Assets/textures/field.png", "background");
+	// Set GUI Title
+	m_guiTitle = "Play Scene";
 
-	// Restart Button
-	m_pRestartButton = new Button("../Assets/textures/restartButton.png", "restartButton", RESTART_BUTTON);
-	m_pRestartButton->getTransform()->position = glm::vec2(400.0f, 400.0f);
-	m_pRestartButton->addEventListener(CLICK, [&]()-> void
+
+}
+
+
+void EndScene::GUI_Function() const
+{
+	// Always open with a NewFrame
+	ImGui::NewFrame();
+
+	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
+	//ImGui::ShowDemoWindow();
+
+	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::Button("Scene 1"))
 	{
-		m_pRestartButton->setActive(false);
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
-	});
+	}
 
-	m_pRestartButton->addEventListener(MOUSE_OVER, [&]()->void
+	ImGui::Separator();
+
+	static float float3[3] = { 0.0f, 1.0f, 1.5f };
+	if (ImGui::SliderFloat3("My Slider", float3, 0.0f, 2.0f))
 	{
-		m_pRestartButton->setAlpha(128);
-	});
+		std::cout << float3[0] << std::endl;
+		std::cout << float3[1] << std::endl;
+		std::cout << float3[2] << std::endl;
+		std::cout << "---------------------------\n";
+	}
 
-	m_pRestartButton->addEventListener(MOUSE_OUT, [&]()->void
-	{
-		m_pRestartButton->setAlpha(255);
-	});
+	ImGui::End();
 
-	addChild(m_pRestartButton);
+	// Don't Remove this
+	ImGui::Render();
+	ImGuiSDL::Render(ImGui::GetDrawData());
+	ImGui::StyleColorsDark();
 }

@@ -20,9 +20,10 @@ public:
 	virtual void start() override;
 
 private:
-	Label* m_label{};
+	// IMGUI Function
+	void GUI_Function() const;
+	std::string m_guiTitle;
 
-	Button* m_pRestartButton;
 };
 
 #endif /* defined (__END_SCENE__) */
