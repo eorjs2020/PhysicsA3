@@ -1,4 +1,4 @@
-#include "EndScene.h"
+#include "Scene2.h"
 #include <algorithm>
 #include "Game.h"
 #include "glm/gtx/string_cast.hpp"
@@ -104,6 +104,12 @@ void EndScene::GUI_Function() const
 		std::cout << float3[2] << std::endl;
 		std::cout << "---------------------------\n";
 	}
+	static float frictionloss = 0.2f;
+	if (ImGui::SliderFloat("Wall Friction", &frictionloss, 0.0, 1.0))
+	{
+		ball->setFriction(frictionloss);
+	}
+	ImGui::Separator();
 
 	ImGui::End();
 

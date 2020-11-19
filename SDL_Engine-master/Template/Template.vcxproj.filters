@@ -36,9 +36,6 @@
     <ClCompile Include="..\src\StartScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\EndScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\CollisionManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -126,12 +123,15 @@
     <ClCompile Include="..\src\BulletPool.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\BounchingBall.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Scene2.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\StartScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\EndScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\src\CollisionManager.h">
@@ -262,6 +262,15 @@
     </ClInclude>
     <ClInclude Include="..\src\BulletPool.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BounchingBall.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ShapeForSence2.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Scene2.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

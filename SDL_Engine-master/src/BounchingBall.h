@@ -16,12 +16,13 @@ public:
 	virtual void update() override;
 	virtual void clean() override;
 	void setShape(int a); 
-	
+	void setFriction(float x);
 	std::vector<glm::vec2> locationOfVertexPoints;
 
 private:
 	int shapeChoice;
-	float x, y;
+	float accelX, accelY;
+	float friction;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __END_SCENE__
-#define __END_SCENE__
+#ifndef __SCENE_2__
+#define __SCENE_2__
 
 #include "Scene.h"
 #include "Label.h"
@@ -29,4 +29,4 @@ private:
 
 };
 
-#endif /* defined (__END_SCENE__) */
+#endif /* defined (__SCENE_2__) */
