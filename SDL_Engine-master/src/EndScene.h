@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Label.h"
 #include "Button.h"
+#include "BounchingBall.h"
 
 class EndScene final : public Scene
 {
@@ -20,6 +21,8 @@ public:
 	virtual void start() override;
 
 private:
+	BounchingBall* ball; 
+
 	// IMGUI Function
 	void GUI_Function() const;
 	std::string m_guiTitle;

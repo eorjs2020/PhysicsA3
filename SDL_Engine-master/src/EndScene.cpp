@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "glm/gtx/string_cast.hpp"
 #include "EventManager.h"
+#include "ShapeForSence2.h"
 
 // required for IMGUI
 #include "imgui.h"
@@ -21,12 +22,11 @@ EndScene::~EndScene()
 void EndScene::draw()
 {
 	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
+	drawDisplayList();
 	if (EventManager::Instance().isIMGUIActive())
 	{
 		GUI_Function();
 	}
-
-	drawDisplayList();
 }
 
 void EndScene::update()
@@ -57,6 +57,9 @@ void EndScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 
+	//Ball sprite
+	ball = new BounchingBall(); 
+	addChild(ball);
 
 }
 
@@ -74,6 +77,21 @@ void EndScene::GUI_Function() const
 	if (ImGui::Button("Scene 1"))
 	{
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
+	}
+
+	ImGui::Separator();
+
+	if (ImGui::Button("Triangle"))
+	{
+		ball->setShape(Triangle);
+	}
+	if (ImGui::Button("Square"))
+	{
+		ball->setShape(Square);
+	}
+	if (ImGui::Button("Hexagon"))
+	{
+		ball->setShape(Hexagon);
 	}
 
 	ImGui::Separator();
