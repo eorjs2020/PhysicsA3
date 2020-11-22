@@ -2,6 +2,7 @@
 #ifndef __BULLET__
 #define __BULLET__
 #include "Sprite.h"
+#include "Player.h"
 
 class BulletPool;
 class Bullet final : public Sprite
@@ -20,6 +21,7 @@ public:
 private:
 	void m_buildAnimations();
 	BulletPool* pool;
+	bool explosionAni;
 };
 
 #endif /* defined (__BULLET__) */

@@ -134,7 +134,7 @@ void PlayScene::start()
 	m_playerFacingRight = true;
 	
 	// Bullet Pool
-	poolTemp = new BulletPool(10);
+	poolTemp = new BulletPool(10, m_pPlayer);
 	
 
 	/* Instructions Label */
