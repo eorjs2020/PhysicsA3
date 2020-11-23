@@ -5,11 +5,12 @@
 
 #include "PlayerAnimationState.h"
 #include "Sprite.h"
+#include "Ship.h"
 
 class BounchingBall : public Sprite
 {
 public:
-	BounchingBall();
+	BounchingBall(Ship* );
 	~BounchingBall();
 
 	virtual void draw() override;
@@ -25,6 +26,7 @@ private:
 	float accelX, accelY;
 	float friction;
 	glm::vec2 triDim, squDim, hexDim; 
+	Ship* player;
 	
 };
 

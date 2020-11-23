@@ -3,7 +3,7 @@
 #include "CollisionManager.h"
 #include "Config.h"
 
-BounchingBall::BounchingBall() : accelX(100), accelY(100)
+BounchingBall::BounchingBall(Ship * player) : accelX(100), accelY(100), player(player)
 {
 	TextureManager::Instance()->load("../Assets/textures/triangle.png", "shape0");
 	TextureManager::Instance()->load("../Assets/textures/tile.png", "shape1");
@@ -99,6 +99,9 @@ void BounchingBall::update()
 		break;
 	default:
 		break;
+
+
+
 	}
 
 	//used to check if shape hit boundry 
@@ -137,26 +140,38 @@ void BounchingBall::setFriction(float x)
 
 void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int b, float c, float d)
 {
-	bool check[4];
+	bool check[8];
 	for (size_t i = 0; i < b ; i++)
 	{
-		//checks to see if the two line touch and if true one of the two if will be tiggered depending on the wall hit
+
 		if(i + 1 == b)
 		{
+			//Wall
 			check[0] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), screenBoundry.at(0), screenBoundry.at(1));
 			check[1] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), screenBoundry.at(1), screenBoundry.at(2));
 			check[2] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), screenBoundry.at(2), screenBoundry.at(3));
 			check[3] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), screenBoundry.at(0), screenBoundry.at(3));
+			//Player
+			check[4] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[0], player->vertexPoints[1]);
+			check[5] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[1], player->vertexPoints[2]);
+			check[6] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[2], player->vertexPoints[3]);
+			check[7] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[0], player->vertexPoints[3]);
 		}
 		else
 		{
+			//Wall
 			check[0] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), screenBoundry.at(0), screenBoundry.at(1));
 			check[1] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), screenBoundry.at(1), screenBoundry.at(2));
 			check[2] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), screenBoundry.at(2), screenBoundry.at(3));
 			check[3] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), screenBoundry.at(0), screenBoundry.at(3));
+			//Player
+			check[4] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[0], player->vertexPoints[1]);
+			check[5] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[1], player->vertexPoints[2]);
+			check[6] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[2], player->vertexPoints[3]);
+			check[7] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[0], player->vertexPoints[3]);
 		}
 		
-		if (check[0] || check[2])
+		if (check[0] || check[2] || check[4] || check[6])
 		{
 			accelX *= -(1 - friction);
 			accelY *= (1 - friction);
@@ -165,13 +180,25 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 				getTransform()->position = glm::vec2(0 + c/2, getTransform()->position.y);
 				break;
 			}
-			else
+			else if (check[2])
 			{
 				getTransform()->position = glm::vec2(800 - c/2, getTransform()->position.y);
 				break;
 			}
+			else if (check[4])
+			{
+				getTransform()->position = glm::vec2(800 - c / 2, getTransform()->position.y);
+				break;
+			}
+			else
+			{
+				getTransform()->position = glm::vec2(800 - c / 2, getTransform()->position.y);
+				break;
+			}
+
+
 		}
-		if (check[1] || check[3])
+		if (check[1] || check[3] || check[5] || check[7])
 		{
 			accelX *= (1 - friction);
 			accelY *= -(1 - friction);
@@ -180,9 +207,19 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 				getTransform()->position = glm::vec2(getTransform()->position.x, 600 - d/2);
 				break;
 			}
-			else
+			else if (check[3])
 			{
 				getTransform()->position = glm::vec2(getTransform()->position.x, 1 + d/2);
+				break;
+			}
+			else if (check[5])
+			{
+				getTransform()->position = glm::vec2(getTransform()->position.x, 600 - d / 2);
+				break;
+			}
+			else
+			{
+				getTransform()->position = glm::vec2(getTransform()->position.x, 1 + d / 2);
 				break;
 			}
 		}

@@ -63,7 +63,7 @@ void EndScene::start()
 	addChild(player);
 
 	//Ball sprite
-	ball = new BounchingBall(); 
+	ball = new BounchingBall(player); 
 	addChild(ball);
 
 }

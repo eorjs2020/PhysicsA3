@@ -32,6 +32,7 @@ public:
 	void setTargetPosition(glm::vec2 newPosition);
 	void setCurrentDirection(glm::vec2 newDirection);
 	void setMaxSpeed(float newSpeed);
+	std::vector<glm::vec2> vertexPoints; 
 
 private:
 	void m_checkBounds();
@@ -45,6 +46,7 @@ private:
 	float m_currentHeading;
 	glm::vec2 m_currentDirection;
 	glm::vec2 m_targetPosition;
+	
 };
 
 
