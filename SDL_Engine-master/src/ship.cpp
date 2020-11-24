@@ -45,10 +45,10 @@ void Ship::draw()
 	TextureManager::Instance()->draw("brick", x, y, m_currentHeading, 255, true);
 
 	//Update vertex coords 
-	vertexPoints[0] = { this->getTransform()->position.x - 31, this->getTransform()->position.y - 17 };
-	vertexPoints[1] = { this->getTransform()->position.x - 31, this->getTransform()->position.y + 17 };
-	vertexPoints[2] = { this->getTransform()->position.x + 31, this->getTransform()->position.y + 17 };
-	vertexPoints[3] = { this->getTransform()->position.x + 31, this->getTransform()->position.y - 17 };
+	vertexPoints[0] = { this->getTransform()->position.x - 34, this->getTransform()->position.y + 20 };
+	vertexPoints[1] = { this->getTransform()->position.x + 34, this->getTransform()->position.y + 20 };
+	vertexPoints[2] = { this->getTransform()->position.x + 34, this->getTransform()->position.y - 20 };
+	vertexPoints[3] = { this->getTransform()->position.x - 34, this->getTransform()->position.y - 20 };
 
 }
 
