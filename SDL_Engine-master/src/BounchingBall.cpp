@@ -73,52 +73,52 @@ void BounchingBall::update()
 	const float deltaTime = 1.f / 60.f;
 	getRigidBody()->acceleration = glm::vec2(accelX, accelY);
 	getRigidBody()->velocity = getRigidBody()->acceleration;
-	getTransform()->position += getRigidBody()->velocity * deltaTime;
-	
-	//Updating Vertex Cords
-	switch (shapeChoice)
-	{
-	case 0:
-		locationVerTri[0] = { this->getTransform()->position.x - 20, this->getTransform()->position.y + 17.5 };
-		locationVerTri[1] = { this->getTransform()->position.x + 20, this->getTransform()->position.y + 17.5 };
-		locationVerTri[2] = { this->getTransform()->position.x, this->getTransform()->position.y - 17.5 };
-		break;
-	case 1:
-		locationVerSqu[0] = { this->getTransform()->position.x - 20, this->getTransform()->position.y - 20 };
-		locationVerSqu[1] = { this->getTransform()->position.x - 20, this->getTransform()->position.y + 20 };
-		locationVerSqu[2] = { this->getTransform()->position.x + 20, this->getTransform()->position.y + 20 };
-		locationVerSqu[3] = { this->getTransform()->position.x + 20, this->getTransform()->position.y - 20 };
-		break;
-	case 2:
-		locationVerHex[0] = { this->getTransform()->position.x - 29 , this->getTransform()->position.y };
-		locationVerHex[1] = { this->getTransform()->position.x - 11, this->getTransform()->position.y + 25 };
-		locationVerHex[2] = { this->getTransform()->position.x + 11, this->getTransform()->position.y + 25 };
-		locationVerHex[3] = { this->getTransform()->position.x + 29, this->getTransform()->position.y };
-		locationVerHex[4] = { this->getTransform()->position.x + 11, this->getTransform()->position.y - 25 };
-		locationVerHex[5] = { this->getTransform()->position.x - 11, this->getTransform()->position.y - 25 };
-		break;
-	default:
-		break;
+getTransform()->position += getRigidBody()->velocity * deltaTime;
+
+//Updating Vertex Cords
+switch (shapeChoice)
+{
+case 0:
+	locationVerTri[0] = { this->getTransform()->position.x - 20, this->getTransform()->position.y + 17.5 };
+	locationVerTri[1] = { this->getTransform()->position.x + 20, this->getTransform()->position.y + 17.5 };
+	locationVerTri[2] = { this->getTransform()->position.x, this->getTransform()->position.y - 17.5 };
+	break;
+case 1:
+	locationVerSqu[0] = { this->getTransform()->position.x - 20, this->getTransform()->position.y - 20 };
+	locationVerSqu[1] = { this->getTransform()->position.x - 20, this->getTransform()->position.y + 20 };
+	locationVerSqu[2] = { this->getTransform()->position.x + 20, this->getTransform()->position.y + 20 };
+	locationVerSqu[3] = { this->getTransform()->position.x + 20, this->getTransform()->position.y - 20 };
+	break;
+case 2:
+	locationVerHex[0] = { this->getTransform()->position.x - 29 , this->getTransform()->position.y };
+	locationVerHex[1] = { this->getTransform()->position.x - 11, this->getTransform()->position.y + 25 };
+	locationVerHex[2] = { this->getTransform()->position.x + 10, this->getTransform()->position.y + 24 };
+	locationVerHex[3] = { this->getTransform()->position.x + 29, this->getTransform()->position.y };
+	locationVerHex[4] = { this->getTransform()->position.x + 11, this->getTransform()->position.y - 25 };
+	locationVerHex[5] = { this->getTransform()->position.x - 10, this->getTransform()->position.y - 24 };
+	break;
+default:
+	break;
 
 
 
-	}
+}
 
-	//used to check if shape hit boundry 
-	switch (shapeChoice)
-	{
-	case 0:
-		lineCheckAgainstScreenBoundry(locationVerTri, size(locationVerTri), triDim.x, triDim.y);
-		break;
-	case 1:
-		lineCheckAgainstScreenBoundry(locationVerSqu, size(locationVerSqu), squDim.x, squDim.y);
-		break;
-	case 2:
-		lineCheckAgainstScreenBoundry(locationVerHex, size(locationVerHex), hexDim.x, hexDim.y);
-		break;
-	default:
-		break;
-	}
+//used to check if shape hit boundry 
+switch (shapeChoice)
+{
+case 0:
+	lineCheckAgainstScreenBoundry(locationVerTri, size(locationVerTri), triDim.x, triDim.y);
+	break;
+case 1:
+	lineCheckAgainstScreenBoundry(locationVerSqu, size(locationVerSqu), squDim.x, squDim.y);
+	break;
+case 2:
+	lineCheckAgainstScreenBoundry(locationVerHex, size(locationVerHex), hexDim.x, hexDim.y);
+	break;
+default:
+	break;
+}
 
 
 
@@ -140,11 +140,12 @@ void BounchingBall::setFriction(float x)
 
 void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int b, float c, float d)
 {
-	bool check[8];
-	for (size_t i = 0; i < b ; i++)
+	bool check[9];
+	check[8] = false;
+	for (size_t i = 0; i < b; i++)
 	{
 
-		if(i + 1 == b)
+		if (i + 1 == b)
 		{
 			//Wall
 			check[0] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), screenBoundry.at(0), screenBoundry.at(1));
@@ -156,6 +157,24 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			check[5] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[1], player->vertexPoints[2]);
 			check[6] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[2], player->vertexPoints[3]);
 			check[7] = CollisionManager::lineLineCheck(a.at(i), a.at(i - i), player->vertexPoints[0], player->vertexPoints[3]);
+			if (a[i].x == a[i- i].x || a[i].y == a[i - i].y)
+			{
+				//Create a line between the two shapes and have line check which face it is collide  with face on player
+				if (CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[0], player->vertexPoints[1])
+					|| CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[2], player->vertexPoints[3]))
+				{
+					check[5] = check[7] = false;
+				}
+				if (CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[1], player->vertexPoints[2])
+					|| CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[0], player->vertexPoints[3]))
+				{
+					check[4] = check[6] = false;
+				}
+			}
+			if ( (check[4] || check[5] || check[4] || check[7]) && (a[i].x != a[i - i].x && a[i].y != a[i - i].y))
+			{
+				check[8] = true;
+			}
 		}
 		else
 		{
@@ -169,60 +188,73 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			check[5] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[1], player->vertexPoints[2]);
 			check[6] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[2], player->vertexPoints[3]);
 			check[7] = CollisionManager::lineLineCheck(a.at(i), a.at(i + 1), player->vertexPoints[0], player->vertexPoints[3]);
+			if (a[i].x == a[i + 1].x || a[i].y == a[i + 1].y)
+			{
+				//Create a line between the two shapes and have line check which face it is collide  with face on player
+				if (CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[0], player->vertexPoints[1])
+					|| CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[2], player->vertexPoints[3]))
+				{
+					check[5] = check[7] = false;
+				}
+				if (CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[1], player->vertexPoints[2])
+					|| CollisionManager::lineLineCheck(getTransform()->position, player->getTransform()->position, player->vertexPoints[0], player->vertexPoints[3]))
+				{
+					check[4] = check[6] = false;
+				}
+			}
+			if ((check[4] || check[5] || check[4] || check[7]) && (a[i].x != a[i + 1].x && a[i].y != a[i + 1].y))
+			{
+				check[8] = true;
+			}
 		}
+
 		
-		if (check[0] || check[2] || check[4] || check[6])
+		if(check[8] == true);
 		{
+			std::cout << check[8] << std::endl;
+			/*getTransform()->position = glm::vec2(getTransform()->position.x - getRigidBody()->velocity.x / 60.f, getTransform()->position.y - ((getRigidBody()->velocity.y) / 60.f));
+			getRigidBody()->velocity.x = -getRigidBody()->velocity.x;
+			getRigidBody()->velocity.y = -getRigidBody()->velocity.y;
+			accelX *= -(1 - friction);
+			accelY *= -(1 - friction);
+			break;*/
+		}
+
+		//Wall Check
+		if (check[0] || check[2])
+		{
+			getTransform()->position = glm::vec2(getTransform()->position.x - ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y - getRigidBody()->velocity.y / 60.f);
+			getRigidBody()->velocity.x  = -getRigidBody()->velocity.x;
 			accelX *= -(1 - friction);
 			accelY *= (1 - friction);
-			if(check[0])
-			{
-				getTransform()->position = glm::vec2(0 + c/2, getTransform()->position.y);
-				break;
-			}
-			else if (check[2])
-			{
-				getTransform()->position = glm::vec2(800 - c/2, getTransform()->position.y);
-				break;
-			}
-			else if (check[4])
-			{
-				getTransform()->position = glm::vec2(800 - c / 2, getTransform()->position.y);
-				break;
-			}
-			else
-			{
-				getTransform()->position = glm::vec2(800 - c / 2, getTransform()->position.y);
-				break;
-			}
-
-
+			break;
 		}
-		if (check[1] || check[3] || check[5] || check[7])
+		if (check[1] || check[3])
 		{
+			getTransform()->position = glm::vec2(getTransform()->position.x - getRigidBody()->velocity.x / 60.f, getTransform()->position.y - ((getRigidBody()->velocity.y) / 60.f));
+			getRigidBody()->velocity.y = -getRigidBody()->velocity.y;
 			accelX *= (1 - friction);
 			accelY *= -(1 - friction);
-			if (check[1])
-			{
-				getTransform()->position = glm::vec2(getTransform()->position.x, 600 - d/2);
-				break;
-			}
-			else if (check[3])
-			{
-				getTransform()->position = glm::vec2(getTransform()->position.x, 1 + d/2);
-				break;
-			}
-			else if (check[5])
-			{
-				getTransform()->position = glm::vec2(getTransform()->position.x, 600 - d / 2);
-				break;
-			}
-			else
-			{
-				getTransform()->position = glm::vec2(getTransform()->position.x, 1 + d / 2);
-				break;
-			}
+			break;	
 		}
 
+		//Player check
+		if (check[4] || check[6])
+		{
+			getTransform()->position = glm::vec2(getTransform()->position.x - ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y - getRigidBody()->velocity.y / 60.f);
+			getRigidBody()->velocity.x = -getRigidBody()->velocity.x;
+			accelX *= -(1 - friction);
+			accelY *= (1 - friction);
+			break;
+
+		}
+		if (check[5] || check[7])
+		{
+			getTransform()->position = glm::vec2(getTransform()->position.x - getRigidBody()->velocity.x / 60.f, getTransform()->position.y - ((getRigidBody()->velocity.y) / 60.f));
+			getRigidBody()->velocity.y = -getRigidBody()->velocity.y;
+			accelX *= (1 - friction);
+			accelY *= -(1 - friction);
+			break;
+		}
 	}
 }
