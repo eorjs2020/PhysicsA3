@@ -6,9 +6,9 @@
 
 Ship::Ship() : m_maxSpeed(10.0f)
 {
-	TextureManager::Instance()->load("../Assets/textures/ship3.png","ship");
+	TextureManager::Instance()->load("../Assets/textures/brick.png","brick");
 
-	auto size = TextureManager::Instance()->getTextureSize("ship");
+	auto size = TextureManager::Instance()->getTextureSize("brick");
 	setWidth(size.x);
 	setHeight(size.y);
 
@@ -21,6 +21,14 @@ Ship::Ship() : m_maxSpeed(10.0f)
 	m_currentHeading = 0.0f; // current facing angle
 	m_currentDirection = glm::vec2(1.0f, 0.0f); // facing right
 	m_turnRate = 5.0f; // 5 degrees per frame
+
+
+	glm::vec2 a = { 2, 2 }, b = { 2, 37 }, c = { 65, 37 }, d = { 65, 2 };
+	vertexPoints.push_back(a);
+	vertexPoints.push_back(b);
+	vertexPoints.push_back(c);
+	vertexPoints.push_back(d);
+
 }
 
 
@@ -34,7 +42,14 @@ void Ship::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the ship
-	TextureManager::Instance()->draw("ship", x, y, m_currentHeading, 255, true);
+	TextureManager::Instance()->draw("brick", x, y, m_currentHeading, 255, true);
+
+	//Update vertex coords 
+	vertexPoints[0] = { this->getTransform()->position.x - 34, this->getTransform()->position.y + 20 };
+	vertexPoints[1] = { this->getTransform()->position.x + 34, this->getTransform()->position.y + 20 };
+	vertexPoints[2] = { this->getTransform()->position.x + 34, this->getTransform()->position.y - 20 };
+	vertexPoints[3] = { this->getTransform()->position.x - 34, this->getTransform()->position.y - 20 };
+
 }
 
 

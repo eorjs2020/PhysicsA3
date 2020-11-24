@@ -1,10 +1,16 @@
 #include "Bullet.h"
 #include "TextureManager.h"
 #include "BulletPool.h"
+#include "CollisionManager.h"
 
-Bullet::Bullet(BulletPool* p)
+Bullet::Bullet(BulletPool* p) :explosionAni(false)
 {
 	TextureManager::Instance()->load("../Assets/textures/bullet.png", "bullet");
+	TextureManager::Instance()->loadSpriteSheet(
+		"../Assets/sprites/atlas.txt",
+		"../Assets/sprites/atlas.png",
+		"spritesheet");
+	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
 	auto size = TextureManager::Instance()->getTextureSize("bullet");
 
 	setWidth(size.x);
@@ -18,6 +24,7 @@ Bullet::Bullet(BulletPool* p)
 
 	
 	pool = p;
+	m_buildAnimations();
 }
 
 Bullet::~Bullet()
@@ -25,28 +32,57 @@ Bullet::~Bullet()
 
 void Bullet::draw()
 {
+	const auto x = getTransform()->position.x;
+	const auto y = getTransform()->position.y;
+
 	if (active) {
 		// alias for x and y
-		const auto x = getTransform()->position.x;
-		const auto y = getTransform()->position.y;
-
+		
 		// draw the plane sprite with simple propeller animation
 		TextureManager::Instance()->draw("bullet", x, y, 0.f, 255, true);
+	}
+	if (explosionAni && !active)
+	{
+		TextureManager::Instance()->playAnimation("spritesheet", getAnimation("explosion"),
+			x, y, 0.12f, 0, 255, true);
 	}
 }
 
 void Bullet::update()
 {
 	if (active) {
+		float PixelPerMeter = 1.f;
 		float deltaTime = 1.f / 60.f;
-		getRigidBody()->acceleration = glm::vec2(0, 9.8);
-		getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime);
+		getRigidBody()->acceleration = glm::vec2(0, 9.8 * 6);
+		getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime * PixelPerMeter);
 		getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
+
+		//collision with boundery
 		if (getTransform()->position.y >= 650) {
 			active = false;
 			pool->Despawn(this);
 			Reset();			
 		}
+		//Collision with player
+		if (CollisionManager::AABBCheck(this, pool->player))
+		{
+			
+			active = false;
+			explosionAni = true;
+			
+		}
+
+	}
+	//explosion animating function
+	else {
+		if (getAnimation("explosion").current_frame == 6)
+		{
+			getAnimation("explosion").current_frame = 0;
+			explosionAni = false;
+			pool->Despawn(this);
+			Reset();			
+		}
+		
 	}
 
 }
@@ -63,12 +99,15 @@ void Bullet::Reset()
 
 void Bullet::m_buildAnimations()
 {
-	Animation planeAnimation = Animation();
+	Animation explosionAnimation = Animation();
+	explosionAnimation.name = "explosion";
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion1"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion2"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion3"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion4"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion5"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion6"));
+	explosionAnimation.frames.push_back(getSpriteSheet()->getFrame("explosion7"));
 
-	planeAnimation.name = "plane";
-	planeAnimation.frames.push_back(getSpriteSheet()->getFrame("plane1"));
-	planeAnimation.frames.push_back(getSpriteSheet()->getFrame("plane2"));
-	planeAnimation.frames.push_back(getSpriteSheet()->getFrame("plane3"));
-
-	setAnimation(planeAnimation);
+	setAnimation(explosionAnimation);
 }

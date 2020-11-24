@@ -6,6 +6,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "BounchingBall.h"
+#include "Ship.h"
 
 class EndScene final : public Scene
 {
@@ -26,7 +27,7 @@ private:
 	// IMGUI Function
 	void GUI_Function() const;
 	std::string m_guiTitle;
-
+	Ship* player;
 };
 
 #endif /* defined (__SCENE_2__) */

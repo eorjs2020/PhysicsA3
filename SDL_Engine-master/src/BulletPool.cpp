@@ -1,12 +1,16 @@
 #include "BulletPool.h"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
-BulletPool::BulletPool(unsigned int size)
+
+BulletPool::BulletPool(unsigned int size, Player* P) : player(P)
 {
+	srand(time(NULL));
 	
 	for (int i = 0; i < size; i++) {
 		deactive.push_back(new Bullet(this));
-		deactive[i]->getTransform()->position = glm::vec2(100 * i + 30, i*5);
+		deactive[i]->getTransform()->position = glm::vec2( 16 + (rand()% 800 - 16) , 10);
 	}
 	
 	

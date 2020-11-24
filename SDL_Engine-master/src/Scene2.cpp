@@ -32,6 +32,8 @@ void EndScene::draw()
 void EndScene::update()
 {
 	updateDisplayList();
+	player->getTransform()->position = EventManager::Instance().getMousePosition();
+	
 }
 
 void EndScene::clean()
@@ -57,8 +59,12 @@ void EndScene::start()
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
 
+	//Player 
+	player = new Ship();
+	addChild(player);
+
 	//Ball sprite
-	ball = new BounchingBall(); 
+	ball = new BounchingBall(player); 
 	addChild(ball);
 
 }
