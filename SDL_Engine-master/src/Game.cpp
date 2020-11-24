@@ -5,7 +5,7 @@
 #include "glm/gtx/string_cast.hpp"
 #include "Renderer.h"
 #include "EventManager.h"
-
+#include "SoundManager.h"
 // IMGUI Includes
 #include "imgui.h"
 #include "imgui_sdl.h"
@@ -66,7 +66,10 @@ bool Game::init(const char* title, const int x, const int y, const int width, co
 				std::cout << "renderer init failure" << std::endl;
 				return false; // render int fail
 			}
-
+			
+			SoundManager::Instance().allocateChannels(16);
+			SoundManager::Instance().setAllVolume(10);
+			
 			// IMGUI 
 			ImGui::CreateContext();
 			ImGuiSDL::Initialize(Renderer::Instance()->getRenderer(), width, height);
@@ -95,6 +98,8 @@ bool Game::init(const char* title, const int x, const int y, const int width, co
 
 	std::cout << "init success" << std::endl;
 	m_bRunning = true; // everything initialized successfully - start the main loop
+
+	
 
 	return true;
 }

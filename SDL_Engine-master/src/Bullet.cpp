@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "BulletPool.h"
 #include "CollisionManager.h"
+#include "SoundManager.h"
 
 Bullet::Bullet(BulletPool* p) :explosionAni(false)
 {
@@ -10,6 +11,8 @@ Bullet::Bullet(BulletPool* p) :explosionAni(false)
 		"../Assets/sprites/atlas.txt",
 		"../Assets/sprites/atlas.png",
 		"spritesheet");
+	SoundManager::Instance().load("../Assets/audio/explode.wav", "explode", SOUND_SFX);
+		
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
 	auto size = TextureManager::Instance()->getTextureSize("bullet");
 
@@ -66,7 +69,7 @@ void Bullet::update()
 		//Collision with player
 		if (CollisionManager::AABBCheck(this, pool->player))
 		{
-			
+			SoundManager::Instance().playSound("explode", 0, 1);
 			active = false;
 			explosionAni = true;
 			
