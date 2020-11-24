@@ -18,10 +18,14 @@ public:
 	void Reset();
 	bool active = false;
 	bool dead = false;
+	void setgravity(float a); 
+
+
 private:
 	void m_buildAnimations();
 	BulletPool* pool;
 	bool explosionAni;
+	float gravity; 
 };
 
 #endif /* defined (__BULLET__) */

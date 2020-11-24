@@ -42,6 +42,7 @@ void BulletPool::Update() {
 	if (active.size() > 0) {
 		for (int i = 0; i < active.size(); ++i)
 		{
+			active[i]->setgravity(gravity);
 			active[i]->update();
 		}
 	}
@@ -67,5 +68,10 @@ void BulletPool::Despawn(Bullet* bullet)
 			}
 		}
 	}
+}
+
+void BulletPool::setgravity(float a)
+{
+	gravity = a; 
 }
 

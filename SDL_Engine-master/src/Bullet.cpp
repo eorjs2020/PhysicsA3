@@ -28,6 +28,8 @@ Bullet::Bullet(BulletPool* p) :explosionAni(false)
 	
 	pool = p;
 	m_buildAnimations();
+
+	gravity = 9.8; 
 }
 
 Bullet::~Bullet()
@@ -56,7 +58,7 @@ void Bullet::update()
 	if (active) {
 		float PixelPerMeter = 1.f;
 		float deltaTime = 1.f / 60.f;
-		getRigidBody()->acceleration = glm::vec2(0, 9.8 * 6);
+		getRigidBody()->acceleration = glm::vec2(0, gravity);
 		getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime * PixelPerMeter);
 		getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
 
@@ -98,6 +100,11 @@ void Bullet::Reset()
 {
 	getRigidBody()->velocity = glm::vec2(0, 0);
 	getTransform()->position = glm::vec2(getTransform()->position.x, 10);
+}
+
+void Bullet::setgravity(float a)
+{
+	gravity = a;
 }
 
 void Bullet::m_buildAnimations()

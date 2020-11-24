@@ -78,7 +78,12 @@ void EndScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	ImGui::Begin("Simple 2D Collision Detection and Response", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	
+	if (ImGui::Button("Start Scene"))
+	{
+		TheGame::Instance()->changeSceneState(START_SCENE);
+	}
 
 	if (ImGui::Button("Scene 1"))
 	{
