@@ -22,6 +22,7 @@ public:
 
 private:
 	void lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int b, float c, float d);
+	void ballCollision();
 	int shapeChoice;
 	float accelX, accelY;
 	float friction;

@@ -144,7 +144,6 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 	check[8] = false;
 	for (size_t i = 0; i < b; i++)
 	{
-
 		if (i + 1 == b)
 		{
 			//Wall
@@ -272,5 +271,30 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			getRigidBody()->velocity.y *= (1 - friction);
 			
 		}
+	}
+}
+
+void BounchingBall::ballCollision()
+{
+	if (getTransform()->position.x > 800 - getWidth() / 2) {
+		getRigidBody()->velocity.x *= -(1 - friction);
+		getRigidBody()->velocity.y *= (1 - friction);
+	}
+	if(getTransform()->position.x < 0 + getWidth() / 2) {
+		getRigidBody()->velocity.x *= -(1 - friction);
+		getRigidBody()->velocity.y *= (1 - friction);
+	}
+	if (getTransform()->position.y < 0 - getWidth() / 2) {
+		getRigidBody()->velocity.x *= (1 - friction);
+		getRigidBody()->velocity.y *= -(1 - friction);
+	}
+	if (getTransform()->position.x > 600 - getWidth() / 2) {
+		getRigidBody()->velocity.x *= (1 - friction);
+		getRigidBody()->velocity.y *= -(1 - friction);
+	}
+
+	if (CollisionManager::circleAABBCheck(this, player)) {
+		
+
 	}
 }
