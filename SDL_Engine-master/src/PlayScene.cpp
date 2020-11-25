@@ -37,7 +37,7 @@ void PlayScene::update()
 	poolTemp->Update();
 	float const deltaTime = 1.f / 60.f;
 
-	if (timer > deltaTime* 50) {
+	if (timer > deltaTime* delay) {
 		timer = 0;
 		poolTemp->Spawn();
 	}
@@ -144,6 +144,8 @@ void PlayScene::start()
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
 	addChild(m_pInstructionsLabel);
 
+	delay = 50; 
+
 }
 
 
@@ -193,7 +195,7 @@ void PlayScene::GUI_Function() const
 	static float DELAY = 0.5;
 	if (ImGui::SliderFloat("Time Delay", &DELAY, 0.5f, 10.0f))
 	{
-		
+		delay = DELAY; 
 	}
 
 	static int soundVolume = 10;

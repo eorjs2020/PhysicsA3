@@ -120,6 +120,14 @@ void EndScene::GUI_Function() const
 	{
 		ball->setFriction(frictionloss);
 	}
+
+	static float  mass= 0.2f;
+	if (ImGui::SliderFloat("Mass", &mass, 1.0, 40.0))
+	{
+		ball->setMass(mass);
+	}
+
+
 	ImGui::Separator();
 
 	ImGui::End();

@@ -138,6 +138,11 @@ void BounchingBall::setFriction(float x)
 	friction = x;
 }
 
+void BounchingBall::setMass(float a)
+{
+	mass = a;
+}
+
 void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int b, float c, float d)
 {
 	bool check[9];
