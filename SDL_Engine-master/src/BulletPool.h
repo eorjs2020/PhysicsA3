@@ -18,9 +18,14 @@ public:
 	void Spawn();
 	void Despawn(Bullet* p);
 	Player* player;
+	void setgravity(float a);
+	void reSize(unsigned int size);
+
 private:	
 	std::vector<Bullet*> active;
 	std::vector<Bullet*> deactive;
+	float gravity; 
+
 };
 
 #endif // !__BULLET_POOL__

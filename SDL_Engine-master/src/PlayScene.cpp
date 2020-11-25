@@ -6,10 +6,12 @@
 #include "imgui.h"
 #include "imgui_sdl.h"
 #include "Renderer.h"
+#include "Bullet.h"
 
 PlayScene::PlayScene()
 {
 	PlayScene::start();
+
 }
 
 PlayScene::~PlayScene()
@@ -35,7 +37,7 @@ void PlayScene::update()
 	poolTemp->Update();
 	float const deltaTime = 1.f / 60.f;
 
-	if (timer > deltaTime*50) {
+	if (timer > deltaTime* delay) {
 		timer = 0;
 		poolTemp->Spawn();
 	}
@@ -141,7 +143,11 @@ void PlayScene::start()
 	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
 	addChild(m_pInstructionsLabel);
+
+	delay = 50; 
+
 }
+
 
 void PlayScene::GUI_Function() const
 {
@@ -151,8 +157,13 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
-
+	ImGui::Begin("Simple 2D Collision Detection", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+	
+	if (ImGui::Button("Start Scene"))
+	{
+		TheGame::Instance()->changeSceneState(START_SCENE);
+	}
+	
 	if(ImGui::Button("Scene 2"))
 	{
 		TheGame::Instance()->changeSceneState(END_SCENE);
@@ -168,7 +179,31 @@ void PlayScene::GUI_Function() const
 		std::cout << float3[2] << std::endl;
 		std::cout << "---------------------------\n";
 	}
+
+	static float gravity = 9.8f;
+	if (ImGui::SliderFloat("Gravity in m/s^2", &gravity, 8.0f, 100.0f))
+	{
+		poolTemp->setgravity(gravity);
+	}
+
+	static int bulletAmount = 10;
+	if (ImGui::SliderInt("Control amount of bullets falling", &bulletAmount, 10, 30))
+	{
+		poolTemp->reSize(bulletAmount);
+	}
 	
+	static int DELAY = 50;
+	if (ImGui::SliderInt("Time Delay", &DELAY, 1, 60))
+	{
+		
+	}
+
+	static int soundVolume = 10;
+	if (ImGui::SliderInt("Control the sound volume", &soundVolume, 0, 50))
+	{
+		SoundManager::Instance().setAllVolume(soundVolume);
+	}
+
 	ImGui::End();
 
 	// Don't Remove this

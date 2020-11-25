@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "BulletPool.h"
 #include "CollisionManager.h"
+#include "SoundManager.h"
 
 Bullet::Bullet(BulletPool* p) :explosionAni(false)
 {
@@ -10,6 +11,8 @@ Bullet::Bullet(BulletPool* p) :explosionAni(false)
 		"../Assets/sprites/atlas.txt",
 		"../Assets/sprites/atlas.png",
 		"spritesheet");
+	SoundManager::Instance().load("../Assets/audio/explode.wav", "explode", SOUND_SFX);
+		
 	setSpriteSheet(TextureManager::Instance()->getSpriteSheet("spritesheet"));
 	auto size = TextureManager::Instance()->getTextureSize("bullet");
 
@@ -25,6 +28,8 @@ Bullet::Bullet(BulletPool* p) :explosionAni(false)
 	
 	pool = p;
 	m_buildAnimations();
+
+	gravity = 9.8; 
 }
 
 Bullet::~Bullet()
@@ -53,7 +58,7 @@ void Bullet::update()
 	if (active) {
 		float PixelPerMeter = 1.f;
 		float deltaTime = 1.f / 60.f;
-		getRigidBody()->acceleration = glm::vec2(0, 9.8 * 6);
+		getRigidBody()->acceleration = glm::vec2(0, gravity);
 		getRigidBody()->velocity = getRigidBody()->velocity + (getRigidBody()->acceleration * deltaTime * PixelPerMeter);
 		getTransform()->position = getTransform()->position + getRigidBody()->velocity * deltaTime;
 
@@ -66,7 +71,7 @@ void Bullet::update()
 		//Collision with player
 		if (CollisionManager::AABBCheck(this, pool->player))
 		{
-			
+			SoundManager::Instance().playSound("explode", 0, 1);
 			active = false;
 			explosionAni = true;
 			
@@ -95,6 +100,11 @@ void Bullet::Reset()
 {
 	getRigidBody()->velocity = glm::vec2(0, 0);
 	getTransform()->position = glm::vec2(getTransform()->position.x, 10);
+}
+
+void Bullet::setgravity(float a)
+{
+	gravity = a;
 }
 
 void Bullet::m_buildAnimations()

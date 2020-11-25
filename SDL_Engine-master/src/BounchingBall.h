@@ -19,6 +19,8 @@ public:
 	void setShape(int a); 
 	void setFriction(float x);
 	std::vector<glm::vec2> locationVerTri, locationVerSqu, locationVerHex, screenBoundry;
+	void setMass(float a);
+
 
 private:
 	void lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int b, float c, float d);
@@ -28,6 +30,7 @@ private:
 	float friction;
 	glm::vec2 triDim, squDim, hexDim; 
 	Ship* player;
+	float mass;
 	
 };
 

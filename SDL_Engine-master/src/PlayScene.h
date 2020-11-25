@@ -20,6 +20,8 @@ public:
 	virtual void clean() override;
 	virtual void handleEvents() override;
 	virtual void start() override;
+
+
 private:
 	// IMGUI Function
 	void GUI_Function() const;
@@ -33,6 +35,8 @@ private:
 	BulletPool* poolTemp;
 	// UI Items
 	Label* m_pInstructionsLabel;
+	int delay;
+
 };
 
 #endif /* defined (__PLAY_SCENE__) */
