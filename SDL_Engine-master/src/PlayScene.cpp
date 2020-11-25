@@ -189,13 +189,13 @@ void PlayScene::GUI_Function() const
 	static int bulletAmount = 10;
 	if (ImGui::SliderInt("Control amount of bullets falling", &bulletAmount, 10, 30))
 	{
-		
+		poolTemp->reSize(bulletAmount);
 	}
 	
-	static float DELAY = 0.5;
-	if (ImGui::SliderFloat("Time Delay", &DELAY, 0.5f, 10.0f))
+	static int DELAY = 50;
+	if (ImGui::SliderInt("Time Delay", &DELAY, 1, 60))
 	{
-		delay = DELAY; 
+		
 	}
 
 	static int soundVolume = 10;

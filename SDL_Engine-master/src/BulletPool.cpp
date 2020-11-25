@@ -4,16 +4,14 @@
 #include <cstdlib>
 
 
-BulletPool::BulletPool(unsigned int size, Player* P) : player(P)
+BulletPool::BulletPool(unsigned int size, Player* P) : player(P), gravity(9.8f)
 {
 	srand(time(NULL));
 	
 	for (int i = 0; i < size; i++) {
 		deactive.push_back(new Bullet(this));
-		deactive[i]->getTransform()->position = glm::vec2( 16 + (rand()% 800 - 16) , 10);
+		
 	}
-	
-	
 }
 
 void BulletPool::Draw()
@@ -29,8 +27,10 @@ void BulletPool::Draw()
 }
 
 void BulletPool::Spawn() {
-	if (!deactive.empty()) {
+	if (!deactive.empty()) {		
+		
 		active.push_back(deactive.back());
+		active.back()->getTransform()->position = glm::vec2(16 + (rand() % 800 - 16), 10);
 		active.back()->active = true;
 		active.back()->Reset();
 		deactive.pop_back();
@@ -73,5 +73,40 @@ void BulletPool::Despawn(Bullet* bullet)
 void BulletPool::setgravity(float a)
 {
 	gravity = a; 
+}
+
+void BulletPool::reSize(unsigned int size)
+{
+	if (size > active.size() + deactive.size())	{
+		for (int i = active.size() + deactive.size(); i < size; ++i)
+		{
+			deactive.push_back(new Bullet(this));			
+		}
+
+	}
+	else if (size < active.size() + deactive.size()) {
+		
+		int decrease = (size - (active.size() + deactive.size())) * -1;
+		if (deactive.size() > decrease) {
+			
+			for (int i = 0; i < decrease; ++i)
+			{
+				deactive.pop_back();
+			}
+		}
+		else {
+			
+			for (int i = 0; i < deactive.size(); ++i) {
+				deactive.pop_back();				
+			}
+			for (int i = 0; i < decrease - deactive.size(); ++i) {
+				active.pop_back();
+			}
+						
+		}
+
+	}
+	
+
 }
 

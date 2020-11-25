@@ -19,7 +19,7 @@ public:
 	void Despawn(Bullet* p);
 	Player* player;
 	void setgravity(float a);
-	
+	void reSize(unsigned int size);
 
 private:	
 	std::vector<Bullet*> active;
