@@ -25,8 +25,11 @@ public:
 
 	static int circleAABBsquaredDistance(glm::vec2 circle_centre, int circle_radius, glm::vec2 box_start, int box_width, int box_height);
 	static bool circleAABBCheck(GameObject* object1, GameObject* object2);
-
+	static bool circlePointcheck(glm::vec2 point, glm::vec2 circle_start, float r);
+	static bool linePoint(glm::vec2 line1_start, glm::vec2 line1_end, glm::vec2 point);
+	static bool circleLineCheck(glm::vec2 line1_start, glm::vec2 line1_end, glm::vec2 circle_start, float circle_radius);
 	static bool pointRectCheck(glm::vec2 point, glm::vec2 rect_start, float rect_width, float rect_height);
+	float dist(float x1, float y1, float x2, float y2);
 	
 private:
 	CollisionManager();

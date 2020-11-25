@@ -7,7 +7,7 @@ BounchingBall::BounchingBall(Ship * player) : accelX(100), accelY(100), player(p
 {
 	TextureManager::Instance()->load("../Assets/textures/triangle.png", "shape0");
 	TextureManager::Instance()->load("../Assets/textures/tile.png", "shape1");
-	TextureManager::Instance()->load("../Assets/textures/hexagon.png", "shape2");
+	TextureManager::Instance()->load("../Assets/textures/circle.png", "shape2");
 	
 	getRigidBody()->velocity = glm::vec2(accelX, accelY);
 	getTransform()->position = glm::vec2(300, 30);
@@ -114,7 +114,7 @@ case 1:
 	lineCheckAgainstScreenBoundry(locationVerSqu, size(locationVerSqu), squDim.x, squDim.y);
 	break;
 case 2:
-	lineCheckAgainstScreenBoundry(locationVerHex, size(locationVerHex), hexDim.x, hexDim.y);
+	ballCollision();
 	break;
 default:
 	break;
@@ -144,7 +144,6 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 	check[8] = false;
 	for (size_t i = 0; i < b; i++)
 	{
-
 		if (i + 1 == b)
 		{
 			//Wall
@@ -273,4 +272,107 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			
 		}
 	}
+}
+
+void BounchingBall::ballCollision()
+{
+	bool check[4];
+	check[0] = CollisionManager::circleLineCheck(player->vertexPoints[0], player->vertexPoints[1], getTransform()->position, 20);
+	check[1] = CollisionManager::circleLineCheck(player->vertexPoints[1], player->vertexPoints[2], getTransform()->position, 20);
+	check[2] = CollisionManager::circleLineCheck(player->vertexPoints[2], player->vertexPoints[3], getTransform()->position, 20);
+	check[3] = CollisionManager::circleLineCheck(player->vertexPoints[3], player->vertexPoints[0], getTransform()->position, 20);
+	if (getTransform()->position.x > 800 - 20) {
+		getRigidBody()->velocity.x *= -(1 - friction);
+		getRigidBody()->velocity.y *= (1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+	}
+	if(getTransform()->position.x < 0 +  20) {
+		getRigidBody()->velocity.x *= -(1 - friction);
+		getRigidBody()->velocity.y *= (1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+	}
+	if (getTransform()->position.y < 0 + 20) {
+		getRigidBody()->velocity.x *= (1 - friction);
+		getRigidBody()->velocity.y *= -(1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+	}
+	if (getTransform()->position.y > 600 - 20) {
+		getRigidBody()->velocity.x *= (1 - friction);
+		getRigidBody()->velocity.y *= -(1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+	}
+	if (check[0] && check[1])
+		check[1] = false;
+	if (check[0] && check[3])
+		check[3] = false;
+	if (check[2] && check[1])
+		check[1] = false;
+	if (check[2] && check[3])
+		check[3] = false;
+
+	if (check[0]) {
+
+	
+		if (player->getTransform()->position.x - player->getWidth() / 2 > getTransform()->position.x) {
+
+			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
+			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			
+
+		}
+		else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
+		{
+			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
+			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			
+
+		}
+		else {
+
+			getRigidBody()->velocity.y *= -1;
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			
+		}
+	}
+	if (check[1]) {
+		getRigidBody()->velocity.x *= (1 - friction);
+		getRigidBody()->velocity.y *= -(1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+	}
+	else if (check[2])
+	{
+		if (player->getTransform()->position.x - player->getWidth() / 2 > getTransform()->position.x) {
+
+			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
+			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+
+
+		}
+		else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
+		{
+			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
+			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+
+
+		}
+		else {
+
+			getRigidBody()->velocity.y *= -1;
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+
+		}
+
+	}
+	else if (check[3])
+	{
+		getRigidBody()->velocity.x *= -(1 - friction);
+		getRigidBody()->velocity.y *= (1 - friction);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+
+	}
+	
 }
