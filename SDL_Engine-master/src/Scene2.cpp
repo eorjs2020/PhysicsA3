@@ -97,7 +97,7 @@ void EndScene::GUI_Function() const
 	}
 	if (ImGui::Button("Hexagon"))
 	{
-		ball->setShape(Hexagon);
+		ball->setShape(Ball);
 	}
 
 	ImGui::Separator();
