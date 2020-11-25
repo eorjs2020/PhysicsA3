@@ -11,6 +11,7 @@
 PlayScene::PlayScene()
 {
 	PlayScene::start();
+
 }
 
 PlayScene::~PlayScene()
@@ -36,7 +37,7 @@ void PlayScene::update()
 	poolTemp->Update();
 	float const deltaTime = 1.f / 60.f;
 
-	if (timer > deltaTime*50) {
+	if (timer > deltaTime* 50) {
 		timer = 0;
 		poolTemp->Spawn();
 	}
@@ -142,7 +143,9 @@ void PlayScene::start()
 	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
 	addChild(m_pInstructionsLabel);
+
 }
+
 
 void PlayScene::GUI_Function() const
 {
@@ -180,7 +183,25 @@ void PlayScene::GUI_Function() const
 	{
 		poolTemp->setgravity(gravity);
 	}
+
+	static int bulletAmount = 10;
+	if (ImGui::SliderInt("Control amount of bullets falling", &bulletAmount, 10, 30))
+	{
+		
+	}
 	
+	static float DELAY = 0.5;
+	if (ImGui::SliderFloat("Time Delay", &DELAY, 0.5f, 10.0f))
+	{
+		
+	}
+
+	static int soundVolume = 10;
+	if (ImGui::SliderInt("Control the sound volume", &soundVolume, 0, 50))
+	{
+		SoundManager::Instance().setAllVolume(soundVolume);
+	}
+
 	ImGui::End();
 
 	// Don't Remove this
