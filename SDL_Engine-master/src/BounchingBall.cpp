@@ -306,6 +306,7 @@ void BounchingBall::ballCollision()
 		getRigidBody()->velocity.y *= -(1 - friction);
 		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
 	}
+	
 	if (check[0] && check[1])
 		check[1] = false;
 	if (check[0] && check[3])
@@ -368,7 +369,6 @@ void BounchingBall::ballCollision()
 
 			getRigidBody()->velocity.y *= -1;
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
-
 		}
 
 	}

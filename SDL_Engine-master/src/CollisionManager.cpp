@@ -371,7 +371,7 @@ bool CollisionManager::circleLineCheck(glm::vec2 line1_start, glm::vec2 line1_en
 	float closestX = line1_start.x + (dot * (line1_end.x - line1_start.x));
 	float closestY = line1_start.y + (dot * (line1_end.y - line1_start.y));
 
-	// is this point actually on the line segment?
+
 	// if so keep going, but if not, return false
 	bool onSegment = linePoint(line1_start, line1_end, glm::vec2(closestX, closestY));
 	if (!onSegment) return false;
@@ -410,12 +410,6 @@ bool CollisionManager::pointRectCheck(const glm::vec2 point, const glm::vec2 rec
 	return false;
 }
 
-float CollisionManager::dist(float x1, float y1, float x2, float y2)
-{
-	int c = sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
-
-	return c;
-}
 
 
 CollisionManager::CollisionManager()
