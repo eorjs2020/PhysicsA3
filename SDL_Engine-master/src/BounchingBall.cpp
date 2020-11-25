@@ -114,7 +114,7 @@ case 1:
 	lineCheckAgainstScreenBoundry(locationVerSqu, size(locationVerSqu), squDim.x, squDim.y);
 	break;
 case 2:
-	lineCheckAgainstScreenBoundry(locationVerHex, size(locationVerHex), hexDim.x, hexDim.y);
+	ballCollision();
 	break;
 default:
 	break;
