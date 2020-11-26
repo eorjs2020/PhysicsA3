@@ -32,7 +32,7 @@ void EndScene::draw()
 void EndScene::update()
 {
 	updateDisplayList();
-	player->getTransform()->position = EventManager::Instance().getMousePosition();
+	
 	
 }
 

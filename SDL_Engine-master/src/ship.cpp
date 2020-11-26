@@ -3,6 +3,8 @@
 #include "PlayScene.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include "EventManager.h"
+
 
 Ship::Ship() : m_maxSpeed(10.0f)
 {
@@ -28,7 +30,7 @@ Ship::Ship() : m_maxSpeed(10.0f)
 	vertexPoints.push_back(b);
 	vertexPoints.push_back(c);
 	vertexPoints.push_back(d);
-
+	
 }
 
 
@@ -55,8 +57,19 @@ void Ship::draw()
 
 void Ship::update()
 {
-	move();
-	m_checkBounds();
+	if (a == 1) {
+		getTransform()->position = EventManager::Instance().getMousePosition();
+		a = 0;
+	}
+	
+	if (pointCheck == 1)
+		positionVector = getTransform()->position;
+
+	if (pointCheck == 4)
+		pointCheck = 0;
+	
+
+	++a; ++pointCheck;
 }
 
 void Ship::clean()
@@ -94,6 +107,11 @@ void Ship::moveBack()
 	getRigidBody()->velocity = m_currentDirection * -m_maxSpeed;
 }
 
+void Ship::giveMomentum()
+{
+
+}
+
 void Ship::move()
 {
 	getTransform()->position += getRigidBody()->velocity;
@@ -129,6 +147,15 @@ void Ship::setCurrentDirection(glm::vec2 newDirection)
 void Ship::setMaxSpeed(float newSpeed)
 {
 	m_maxSpeed = newSpeed;
+}
+
+glm::vec2 Ship::getVector()
+{
+	
+	float temp = sqrt(pow(getTransform()->position.x - positionVector.x, 2) + pow(getTransform()->position.y - positionVector.y, 2));
+	
+	
+	return glm::vec2(temp, temp);
 }
 
 

@@ -211,10 +211,7 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 				check[8] = true;
 			}
 		}
-
 		
-		
-
 		//Wall Check
 		if (check[0] || check[2])
 		{
@@ -238,9 +235,10 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			
 			if (player->getTransform()->position.x - player->getWidth() /2 > getTransform()->position.x) {
 				
+				
 				getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
 				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 				
 			}
@@ -248,14 +246,15 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			{				
 				getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
 				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 				
 			}
-			else  {	
+			else  {
 				
+				//getTransform()->position = glm::vec2(getTransform()->position.x ,player->getTransform()->position.y + (player->getHeight() / 2));
 				getRigidBody()->velocity.y *= -1;
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 			}
 			
@@ -289,22 +288,23 @@ void BounchingBall::ballCollision()
 	if (getTransform()->position.x > 800 - 20) {
 		getRigidBody()->velocity.x *= -(1 - friction);
 		getRigidBody()->velocity.y *= (1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	if(getTransform()->position.x < 0 +  20) {
 		getRigidBody()->velocity.x *= -(1 - friction);
 		getRigidBody()->velocity.y *= (1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
+		
 	}
 	if (getTransform()->position.y < 0 + 20) {
 		getRigidBody()->velocity.x *= (1 - friction);
 		getRigidBody()->velocity.y *= -(1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	if (getTransform()->position.y > 600 - 20) {
 		getRigidBody()->velocity.x *= (1 - friction);
 		getRigidBody()->velocity.y *= -(1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	
 	if (check[0] && check[1])
@@ -323,7 +323,7 @@ void BounchingBall::ballCollision()
 
 			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
 			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 
 		}
@@ -331,21 +331,21 @@ void BounchingBall::ballCollision()
 		{
 			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
 			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 
 		}
 		else {
 
 			getRigidBody()->velocity.y *= -1;
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 		}
 	}
 	if (check[1]) {
 		getRigidBody()->velocity.x *= (1 - friction);
 		getRigidBody()->velocity.y *= -(1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	else if (check[2])
 	{
@@ -353,7 +353,7 @@ void BounchingBall::ballCollision()
 
 			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
 			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			
 
 
 		}
@@ -361,22 +361,22 @@ void BounchingBall::ballCollision()
 		{
 			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
 			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 
 
 		}
 		else {
 
 			getRigidBody()->velocity.y *= -1;
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 		}
 
 	}
 	else if (check[3])
 	{
-		getRigidBody()->velocity.x *= -(1 - friction);
-		getRigidBody()->velocity.y *= (1 - friction);
-		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 60.f), getTransform()->position.y + getRigidBody()->velocity.y / 60.f);
+		getRigidBody()->velocity.x *= -(abs(getRigidBody()->velocity.x) + player->getVector().x);
+		getRigidBody()->velocity.y *= (abs(getRigidBody()->velocity.y) + player->getVector().y);
+		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 
 	}
 	
