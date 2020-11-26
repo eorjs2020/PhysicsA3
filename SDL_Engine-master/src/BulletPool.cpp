@@ -12,6 +12,7 @@ BulletPool::BulletPool(unsigned int size, Player* P) : player(P), gravity(9.8f)
 		deactive.push_back(new Bullet(this));
 		
 	}
+	delay = 50; 
 }
 
 void BulletPool::Draw()
@@ -108,5 +109,15 @@ void BulletPool::reSize(unsigned int size)
 	}
 	
 
+}
+
+void BulletPool::setDelay(float a)
+{
+	delay = a;
+}
+
+float BulletPool::getDelay()
+{
+	return delay;
 }
 

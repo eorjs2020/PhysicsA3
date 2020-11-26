@@ -20,11 +20,15 @@ public:
 	Player* player;
 	void setgravity(float a);
 	void reSize(unsigned int size);
+	void setDelay(float a);
+	float getDelay(); 
+
 
 private:	
 	std::vector<Bullet*> active;
 	std::vector<Bullet*> deactive;
 	float gravity; 
+	float delay;
 
 };
 

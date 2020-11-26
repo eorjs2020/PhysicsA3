@@ -35,7 +35,6 @@ private:
 	BulletPool* poolTemp;
 	// UI Items
 	Label* m_pInstructionsLabel;
-	int delay;
 
 };
 

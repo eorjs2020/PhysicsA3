@@ -37,7 +37,7 @@ void PlayScene::update()
 	poolTemp->Update();
 	float const deltaTime = 1.f / 60.f;
 
-	if (timer > deltaTime* delay) {
+	if (timer > deltaTime* poolTemp->getDelay()) {
 		timer = 0;
 		poolTemp->Spawn();
 	}
@@ -143,9 +143,6 @@ void PlayScene::start()
 	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
 	addChild(m_pInstructionsLabel);
-
-	delay = 50; 
-
 }
 
 
@@ -195,7 +192,7 @@ void PlayScene::GUI_Function() const
 	static int DELAY = 50;
 	if (ImGui::SliderInt("Time Delay", &DELAY, 1, 60))
 	{
-		
+		poolTemp->setDelay(DELAY);
 	}
 
 	static int soundVolume = 10;

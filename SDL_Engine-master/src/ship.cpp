@@ -150,6 +150,11 @@ void Ship::setMaxSpeed(float newSpeed)
 	m_maxSpeed = newSpeed;
 }
 
+void Ship::setMass(float a)
+{
+	mass = a;
+}
+
 glm::vec2 Ship::getVector()
 {
 	
@@ -162,6 +167,11 @@ glm::vec2 Ship::getVector()
 	
 
 	return glm::vec2(velX, velY);
+}
+
+float Ship::getMass()
+{
+	return mass;
 }
 
 
