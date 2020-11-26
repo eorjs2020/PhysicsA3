@@ -57,18 +57,19 @@ void Ship::draw()
 
 void Ship::update()
 {
+	const float deltaTime = 1.f / 60.f;
 	if (a == 1) {
 		getTransform()->position = EventManager::Instance().getMousePosition();
 		a = 0;
 	}
 	
-	if (pointCheck == 1)
+	if (pointCheck == 2)
 		positionVector = getTransform()->position;
-
-	if (pointCheck == 4)
+	
+	if (pointCheck == 10)
 		pointCheck = 0;
 	
-
+	std::cout << positionVector.x << std::endl;
 	++a; ++pointCheck;
 }
 
@@ -153,9 +154,14 @@ glm::vec2 Ship::getVector()
 {
 	
 	float temp = sqrt(pow(getTransform()->position.x - positionVector.x, 2) + pow(getTransform()->position.y - positionVector.y, 2));
+	float tempX = getTransform()->position.x - positionVector.x;
+	float tempY = getTransform()->position.y - positionVector.y;
 	
+	float velX = tempX / (pointCheck - 2 / 2);
+	float velY = tempY / (pointCheck - 2 / 2);
 	
-	return glm::vec2(temp, temp);
+
+	return glm::vec2(velX, velY);
 }
 
 
