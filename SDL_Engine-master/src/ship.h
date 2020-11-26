@@ -29,11 +29,13 @@ public:
 	glm::vec2 getCurrentDirection() const;
 	float getMaxSpeed() const;
 	glm::vec2 getVector();
+	float getMass();
 
 	// setters
 	void setTargetPosition(glm::vec2 newPosition);
 	void setCurrentDirection(glm::vec2 newDirection);
 	void setMaxSpeed(float newSpeed);
+	void setMass(float a);
 	
 	std::vector<glm::vec2> vertexPoints;
 private:
@@ -50,6 +52,7 @@ private:
 	glm::vec2 m_currentDirection;
 	glm::vec2 m_targetPosition;
 	glm::vec2 positionVector;
+	float mass; 
 };
 
 

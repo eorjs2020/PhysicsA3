@@ -234,18 +234,20 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 		{
 			
 			if (player->getTransform()->position.x - player->getWidth() /2 > getTransform()->position.x) {
-				
-				
-				getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
-				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+				getRigidBody()->velocity.x = -abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+				/*getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
+				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);*/
 				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 				
 			}
 			else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
 			{				
-				getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
-				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+				getRigidBody()->velocity.x = abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+				/*getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
+				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);*/
 				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 				
@@ -253,26 +255,40 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			else  {
 				
 				//getTransform()->position = glm::vec2(getTransform()->position.x ,player->getTransform()->position.y + (player->getHeight() / 2));
-				getRigidBody()->velocity.y *= -1;
+				
+				getRigidBody()->velocity.x = abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = -abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+				/*
+				getRigidBody()->velocity.y *= -1;*/
+				
+				
 				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 				break;
 			}
 			
 		}
 		if (check[6]) {
-			getRigidBody()->velocity.x *= (1 - friction);
-			getRigidBody()->velocity.y *= -(1 - friction);
+			getRigidBody()->velocity.x = abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = -abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+
+			/*getRigidBody()->velocity.x *= (1 - friction);
+			getRigidBody()->velocity.y *= -(1 - friction);*/
 		}
 		if (check[5])
 		{
-			getRigidBody()->velocity.x *= -(1 - friction);
-			getRigidBody()->velocity.y *= (1 - friction);
+			getRigidBody()->velocity.x = -abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+
+			/*getRigidBody()->velocity.x *= -(1 - friction);
+			getRigidBody()->velocity.y *= (1 - friction);*/
 			
 		}
 		if (check[7])
 		{
-			getRigidBody()->velocity.x *= -(1 - friction);
-			getRigidBody()->velocity.y *= (1 - friction);
+			getRigidBody()->velocity.x = -abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
+			/*getRigidBody()->velocity.x *= -(1 - friction);
+			getRigidBody()->velocity.y *= (1 - friction);*/
 			
 		}
 	}
