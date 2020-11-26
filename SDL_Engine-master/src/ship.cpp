@@ -30,7 +30,7 @@ Ship::Ship() : m_maxSpeed(10.0f)
 	vertexPoints.push_back(b);
 	vertexPoints.push_back(c);
 	vertexPoints.push_back(d);
-	
+	mass = 1;
 }
 
 
@@ -63,13 +63,12 @@ void Ship::update()
 		a = 0;
 	}
 	
-	if (pointCheck == 2)
+	if (pointCheck == 4)
 		positionVector = getTransform()->position;
 	
-	if (pointCheck == 10)
-		pointCheck = 0;
+	if (pointCheck == 12)
+		pointCheck = 2;
 	
-	std::cout << positionVector.x << std::endl;
 	++a; ++pointCheck;
 }
 
@@ -161,11 +160,15 @@ glm::vec2 Ship::getVector()
 	float temp = sqrt(pow(getTransform()->position.x - positionVector.x, 2) + pow(getTransform()->position.y - positionVector.y, 2));
 	float tempX = getTransform()->position.x - positionVector.x;
 	float tempY = getTransform()->position.y - positionVector.y;
-	
-	float velX = tempX / (pointCheck - 2 / 2);
-	float velY = tempY / (pointCheck - 2 / 2);
-	
-
+	float velX, velY;
+	if (pointCheck - 2 == 0 ){
+		 velX = tempX / ( 2 / 2);
+		 velY = tempY / (2 / 2);
+	}
+	else {
+		velX = tempX / (pointCheck - 2 / 2);
+		velY = tempY / (pointCheck - 2 / 2);
+	}
 	return glm::vec2(velX, velY);
 }
 

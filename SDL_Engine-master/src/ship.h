@@ -51,6 +51,7 @@ private:
 	glm::vec2 m_currentDirection;
 	glm::vec2 m_targetPosition;
 	glm::vec2 positionVector;
+	glm::vec2 velocity;
 	float mass; 
 };
 
