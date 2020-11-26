@@ -121,10 +121,15 @@ void EndScene::GUI_Function() const
 		ball->setFriction(frictionloss);
 	}
 
-	static float  mass= 0.2f;
-	if (ImGui::SliderFloat("Mass", &mass, 1.0, 40.0))
+	static float  massa = 1.0f;
+	if (ImGui::SliderFloat("Ball Mass", &massa, 1.0, 40.0))
 	{
-		ball->setMass(mass);
+		ball->setMass(massa);
+	}
+	static float  massb = 1.0f;
+	if (ImGui::SliderFloat("Brick Mass", &massb, 1.0, 40.0))
+	{
+		player->setMass(massb);
 	}
 
 
