@@ -71,6 +71,7 @@ void Bullet::update()
 		//Collision with player
 		if (CollisionManager::AABBCheck(this, pool->player))
 		{
+			pool->player->setAmountHit(1);
 			SoundManager::Instance().playSound("explode", 0, 1);
 			active = false;
 			explosionAni = true;

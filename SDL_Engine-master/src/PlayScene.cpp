@@ -181,7 +181,7 @@ void PlayScene::GUI_Function() const
 	}
 	
 	static int DELAY = 50;
-	if (ImGui::SliderInt("Time Delay", &DELAY, 1, 60))
+	if (ImGui::SliderInt("Time Delay", &DELAY, 1, 240))
 	{
 		poolTemp->setDelay(DELAY);
 	}
@@ -192,6 +192,13 @@ void PlayScene::GUI_Function() const
 		SoundManager::Instance().setAllVolume(soundVolume);
 	}
 
+	ImGui::Text("PPM is 1 meter per pixel"); 
+	ImGui::Text("Amount of bullets on screen = %.i ", poolTemp->getBulletActive());
+	ImGui::Text("Amount of bullets off screen = %.i ", poolTemp->getBulletDeactive());
+	ImGui::Text("Amount of bullets that hit player = %.i ", m_pPlayer->getAmountHit());
+	if (poolTemp->getBulletActive() > 0 ) {
+		ImGui::Text("Velocity of the bullet with a box around it in the y direction = %.2f", poolTemp->getbullet()[0]->getRigidBody()->velocity.y);
+	}
 	ImGui::End();
 
 	// Don't Remove this

@@ -22,14 +22,16 @@ public:
 	void reSize(unsigned int size);
 	void setDelay(float a);
 	float getDelay(); 
-
+	int getBulletActive();
+	int getBulletDeactive();
+	std::vector<Bullet*> getbullet();
 
 private:	
 	std::vector<Bullet*> active;
 	std::vector<Bullet*> deactive;
 	float gravity; 
 	float delay;
-
+	int bulletActive, bulletDeactive;
 };
 
 #endif // !__BULLET_POOL__

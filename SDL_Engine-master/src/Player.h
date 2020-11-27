@@ -15,14 +15,17 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
+	int getAmountHit();
 
 	// setters
 	void setAnimationState(PlayerAnimationState new_state);
-
+	void setAmountHit(int a);
 private:
 	void m_buildAnimations();
 
 	PlayerAnimationState m_currentAnimationState;
+	int amountHit;
+
 };
 
 #endif /* defined (__PLAYER__) */

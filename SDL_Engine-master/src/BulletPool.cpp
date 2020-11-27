@@ -2,6 +2,8 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include "Util.h"
+#include "Renderer.h"
 
 
 BulletPool::BulletPool(unsigned int size, Player* P) : player(P), gravity(9.8f)
@@ -23,6 +25,7 @@ void BulletPool::Draw()
 		{
 			active[i]->draw();
 		}
+		Util::DrawRect({ active[0]->getTransform()->position.x - (active[0]->getHeight()/2 +2) ,active[0]->getTransform()->position.y - (active[0]->getWidth() / 2 + 2) }, active[0]->getHeight() + 5, active[0]->getWidth() + 5, { 255, 0, 100, 255 });
 	}
 
 }
@@ -49,8 +52,9 @@ void BulletPool::Update() {
 	}
 	
 	
-	std::cout << "Active : " << active.size() << " Deactive : " << deactive.size() << std::endl;
-	
+	//std::cout << "Active : " << active.size() << " Deactive : " << deactive.size() << std::endl;
+	bulletActive = active.size(); 
+	bulletDeactive = deactive.size();
 }
 
 void BulletPool::Despawn(Bullet* bullet)
@@ -119,5 +123,20 @@ void BulletPool::setDelay(float a)
 float BulletPool::getDelay()
 {
 	return delay;
+}
+
+int BulletPool::getBulletActive()
+{
+	return bulletActive;
+}
+
+int BulletPool::getBulletDeactive()
+{
+	return bulletDeactive;
+}
+
+std::vector<Bullet*> BulletPool::getbullet()
+{
+	return active;
 }
 

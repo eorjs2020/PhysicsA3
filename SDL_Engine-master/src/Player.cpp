@@ -23,6 +23,7 @@ Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
 	setType(PLAYER);
 
 	m_buildAnimations();
+	amountHit = 0;
 }
 
 Player::~Player()
@@ -68,9 +69,19 @@ void Player::clean()
 {
 }
 
+int Player::getAmountHit()
+{
+	return amountHit;
+}
+
 void Player::setAnimationState(const PlayerAnimationState new_state)
 {
 	m_currentAnimationState = new_state;
+}
+
+void Player::setAmountHit(int a)
+{
+	amountHit += a;
 }
 
 void Player::m_buildAnimations()
