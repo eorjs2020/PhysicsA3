@@ -32,7 +32,6 @@ void BulletPool::Draw()
 
 void BulletPool::Spawn() {
 	if (!deactive.empty()) {		
-		
 		active.push_back(deactive.back());
 		active.back()->getTransform()->position = glm::vec2(16 + (rand() % 800 - 16), 10);
 		active.back()->active = true;
@@ -58,9 +57,7 @@ void BulletPool::Update() {
 }
 
 void BulletPool::Despawn(Bullet* bullet)
-{
-	
-	
+{	
 	for (int i = 0; i < active.size(); ++i)
 	{
 		if (bullet == active.at(i)) {
@@ -110,9 +107,7 @@ void BulletPool::reSize(unsigned int size)
 						
 		}
 
-	}
-	
-
+	}	
 }
 
 void BulletPool::setDelay(float a)

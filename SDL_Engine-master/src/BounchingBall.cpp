@@ -340,6 +340,8 @@ void BounchingBall::ballCollision()
 	check[1] = CollisionManager::circleLineCheck(player->vertexPoints[1], player->vertexPoints[2], getTransform()->position, 20);
 	check[2] = CollisionManager::circleLineCheck(player->vertexPoints[2], player->vertexPoints[3], getTransform()->position, 20);
 	check[3] = CollisionManager::circleLineCheck(player->vertexPoints[3], player->vertexPoints[0], getTransform()->position, 20);
+	
+	// Wall vs Ball
 	if (getTransform()->position.x > 800 - 20) {
 		getRigidBody()->velocity.x *= -(1 - friction);
 		getRigidBody()->velocity.y *= (1 - friction);
@@ -362,6 +364,7 @@ void BounchingBall::ballCollision()
 		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	
+	// Brick vs Ball
 	if (check[0] && check[1])
 		check[1] = false;
 	if (check[0] && check[3])
@@ -370,6 +373,7 @@ void BounchingBall::ballCollision()
 		check[1] = false;
 	if (check[2] && check[3])
 		check[3] = false;
+
 	int signX;
 	if (getRigidBody()->velocity.x > 0)
 		signX = 1;
