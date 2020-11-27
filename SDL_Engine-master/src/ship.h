@@ -38,6 +38,8 @@ public:
 	float pointCheck;
 	void setMass(float a);
 	std::vector<glm::vec2> vertexPoints;
+	glm::vec2 getvelocity() { return velocity; }
+
 private:
 	void m_checkBounds();
 	void m_reset();

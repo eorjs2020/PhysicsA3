@@ -125,7 +125,7 @@ default:
 }
 
 
-std::cout << getRigidBody()->velocity.x << "   " << getRigidBody()->velocity.y << std::endl;
+//std::cout << getRigidBody()->velocity.x << "   " << getRigidBody()->velocity.y << std::endl;
 }
 
 void BounchingBall::clean()

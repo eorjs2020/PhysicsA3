@@ -125,8 +125,13 @@ void EndScene::GUI_Function() const
 		player->setMass(massb);
 	}
 
-
 	ImGui::Separator();
+
+	ImGui::Text("PPM is 1 meter per pixel");
+	ImGui::Text("Velocity of ball in x = %.2f", ball->getRigidBody()->velocity.x);
+	ImGui::Text("Velocity of ball in y = %.2f ", ball->getRigidBody()->velocity.y);
+	ImGui::Text("Velocity of brick in x = %.2f ", player->getVector().x);
+	ImGui::Text("Velocity of brick in y = %.2f ", player->getVector().y);
 
 	ImGui::End();
 

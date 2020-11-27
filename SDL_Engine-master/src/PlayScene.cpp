@@ -192,6 +192,7 @@ void PlayScene::GUI_Function() const
 		SoundManager::Instance().setAllVolume(soundVolume);
 	}
 
+	ImGui::Separator();
 	ImGui::Text("PPM is 1 meter per pixel"); 
 	ImGui::Text("Amount of bullets on screen = %.i ", poolTemp->getBulletActive());
 	ImGui::Text("Amount of bullets off screen = %.i ", poolTemp->getBulletDeactive());
