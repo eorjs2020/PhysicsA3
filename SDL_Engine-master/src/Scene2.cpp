@@ -100,7 +100,7 @@ void EndScene::GUI_Function() const
 	{
 		ball->setShape(Square);
 	}
-	if (ImGui::Button("Hexagon"))
+	if (ImGui::Button("Ball"))
 	{
 		ball->setShape(Ball);
 	}

@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "CollisionManager.h"
 #include "Config.h"
+#include <iostream>
 
 BounchingBall::BounchingBall(Ship * player) : accelX(100), accelY(100), player(player)
 {
@@ -75,7 +76,7 @@ void BounchingBall::draw()
 void BounchingBall::update()
 {
 	const float deltaTime = 1.f / 60.f;
-	
+
 	getTransform()->position += getRigidBody()->velocity * deltaTime;
 
 //Updating Vertex Cords
@@ -124,8 +125,7 @@ default:
 }
 
 
-std::cout << this->getRigidBody()->velocity.x << std::endl;
-std::cout << player->getVector().x << std::endl;
+std::cout << getRigidBody()->velocity.x << "   " << getRigidBody()->velocity.y << std::endl;
 }
 
 void BounchingBall::clean()
@@ -232,93 +232,100 @@ void BounchingBall::lineCheckAgainstScreenBoundry(std::vector<glm::vec2> a, int 
 			getRigidBody()->velocity.y *= -(1 - friction);
 			break;	
 		}
-
+		
+		int sign = 0;
 		//Player check
 		if (check[4])
-		{
+		{		
+			if (getRigidBody()->velocity.x > 0)
+				sign = 1;
+			else
+				sign = -1;
 			
 			if (player->getTransform()->position.x - player->getWidth() /2 > getTransform()->position.x) {
-				getRigidBody()->velocity.x = -abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
-				getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
-				/*getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
-				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);*/
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
+				
+				getRigidBody()->velocity.x = -abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+				//getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
+				//getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 30.f), getTransform()->position.y + getRigidBody()->velocity.y / 30.f);
+				
 				break;
 				
 			}
 			else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
 			{				
-				getRigidBody()->velocity.x = abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
-				getRigidBody()->velocity.y = abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
-				/*getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
-				getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);*/
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
+				getRigidBody()->velocity.x = abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+			
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 30.f), getTransform()->position.y + getRigidBody()->velocity.y / 30.f);
+				
 				break;
 				
 			}
 			else  {
 				
-				//getTransform()->position = glm::vec2(getTransform()->position.x ,player->getTransform()->position.y + (player->getHeight() / 2));
-				
-				getRigidBody()->velocity.x = abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
-				getRigidBody()->velocity.y = -abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
-				/*
-				getRigidBody()->velocity.y *= -1;*/
 				
 				
-				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
+				getRigidBody()->velocity.x = sign * abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+				getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+				
+				getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 30.f), getTransform()->position.y + getRigidBody()->velocity.y / 30.f);
+				
+				/*getRigidBody()->velocity.y *= -1;*/
 				break;
 			}
 			
 		}
-		int sign = 0;
-		if (check[6]) {
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
-			if (this->getRigidBody()->velocity.y > 0)
+		
+		else if (check[6]) {
+			
+			if (this->getRigidBody()->velocity.x > 0)
+			{
+				sign = 1;
+			}
+			else
 			{
 				sign = -1;
 			}
-			else
-			{
-				sign = 1;
-			}
-			getRigidBody()->velocity.x = this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass();
-			getRigidBody()->velocity.y = sign * abs(this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass());
-
+			getRigidBody()->velocity.x = sign*abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = -abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			/*getRigidBody()->velocity.x *= (1 - friction);
 			getRigidBody()->velocity.y *= -(1 - friction);*/
 		}
-		if (check[5])
+		else if (check[5])
 		{
 			if (this->getRigidBody()->velocity.y > 0)
 			{
-				sign = - 1;
+				sign = 1;
 			}
 			else
 			{
-				sign = 1;
+				sign = -1;
 			}
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
-			getRigidBody()->velocity.x = sign * abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
-			getRigidBody()->velocity.y = this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass();
 			
+			getRigidBody()->velocity.x =  abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = sign*abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			/*getRigidBody()->velocity.x *= -(1 - friction);
 			getRigidBody()->velocity.y *= (1 - friction);*/
 			
 		}
-		if (check[7])
+		else if (check[7])
 		{
-			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
+			
 			if (this->getRigidBody()->velocity.y > 0)
-			{
-				sign = -1;
-			}
-			else
 			{
 				sign = 1;
 			}
-			getRigidBody()->velocity.x = sign * abs(this->getRigidBody()->velocity.x * this->mass - player->getVector().x * player->getMass());
-			getRigidBody()->velocity.y = this->getRigidBody()->velocity.y * this->mass - player->getVector().y * player->getMass();
+			else
+			{
+				sign = -1;
+			}
+			getRigidBody()->velocity.x = -abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = sign * abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			/*getRigidBody()->velocity.x *= -(1 - friction);
 			getRigidBody()->velocity.y *= (1 - friction);*/
 			
@@ -363,67 +370,78 @@ void BounchingBall::ballCollision()
 		check[1] = false;
 	if (check[2] && check[3])
 		check[3] = false;
+	int signX;
+	if (getRigidBody()->velocity.x > 0)
+		signX = 1;
+	else
+		signX = -1;
+	int signY;
+	if (getRigidBody()->velocity.y > 0)
+		signY = 1;
+	else
+		signY = -1;
 
 	if (check[0]) {
-
+		
 	
 		if (player->getTransform()->position.x - player->getWidth() / 2 > getTransform()->position.x) {
 
-			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
-			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+			getRigidBody()->velocity.x = -abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+	
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 
 		}
 		else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
 		{
-			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
-			getRigidBody()->velocity.y = abs(getRigidBody()->velocity.y);
+			getRigidBody()->velocity.x = abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
+
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 
 		}
 		else {
+			
+			getRigidBody()->velocity.x = signX * abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 
-			getRigidBody()->velocity.y *= -1;
+			
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 			
 		}
 	}
 	if (check[1]) {
-		getRigidBody()->velocity.x *= (1 - friction);
-		getRigidBody()->velocity.y *= -(1 - friction);
+		getRigidBody()->velocity.x = abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+		getRigidBody()->velocity.y = signY * abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 	}
 	else if (check[2])
 	{
 		if (player->getTransform()->position.x - player->getWidth() / 2 > getTransform()->position.x) {
-
-			getRigidBody()->velocity.x = -abs(getRigidBody()->velocity.x);
-			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
-			
-
-
+						
+			getRigidBody()->velocity.x = -abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = -abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 		}
 		else if (player->getTransform()->position.x + player->getWidth() / 2 < getTransform()->position.x)
 		{
-			getRigidBody()->velocity.x = abs(getRigidBody()->velocity.x);
-			getRigidBody()->velocity.y = -abs(getRigidBody()->velocity.y);
+			getRigidBody()->velocity.x = abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = -abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
-
-
 		}
 		else {
-
-			getRigidBody()->velocity.y *= -1;
+			
+			getRigidBody()->velocity.x = signX * abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+			getRigidBody()->velocity.y = -abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 			getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 		}
 
 	}
 	else if (check[3])
 	{
-		getRigidBody()->velocity.x *= -(abs(getRigidBody()->velocity.x) + player->getVector().x);
-		getRigidBody()->velocity.y *= (abs(getRigidBody()->velocity.y) + player->getVector().y);
+		getRigidBody()->velocity.x = -abs(abs(this->getRigidBody()->velocity.x) * this->mass + player->getVector().x * player->getMass());
+		getRigidBody()->velocity.y = signY * abs(abs(this->getRigidBody()->velocity.y) * this->mass + player->getVector().y * player->getMass());
 		getTransform()->position = glm::vec2(getTransform()->position.x + ((getRigidBody()->velocity.x) / 20.f), getTransform()->position.y + getRigidBody()->velocity.y / 20.f);
 
 	}
