@@ -107,14 +107,7 @@ void EndScene::GUI_Function() const
 
 	ImGui::Separator();
 
-	static float float3[3] = { 0.0f, 1.0f, 1.5f };
-	if (ImGui::SliderFloat3("My Slider", float3, 0.0f, 2.0f))
-	{
-		std::cout << float3[0] << std::endl;
-		std::cout << float3[1] << std::endl;
-		std::cout << float3[2] << std::endl;
-		std::cout << "---------------------------\n";
-	}
+	
 	static float frictionloss = 0.2f;
 	if (ImGui::SliderFloat("Wall Friction", &frictionloss, 0.0, 1.0))
 	{
