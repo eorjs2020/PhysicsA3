@@ -14,6 +14,7 @@ StartScene::~StartScene()
 
 void StartScene::draw()
 {
+	TextureManager::Instance()->draw("background", 400, 300, 0, 255, true);
 	drawDisplayList();
 }
 
@@ -100,6 +101,6 @@ void StartScene::start()
 		});
 	addChild(m_pScene2Button);
 
-	
+	TextureManager::Instance()->load("../Assets/textures/field.png", "background");
 }
 

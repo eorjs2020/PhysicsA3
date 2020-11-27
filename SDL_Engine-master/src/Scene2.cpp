@@ -66,7 +66,7 @@ void EndScene::start()
 	//Ball sprite
 	ball = new BounchingBall(player); 
 	addChild(ball);
-
+	ball->setShape(Ball);
 }
 
 
@@ -91,7 +91,11 @@ void EndScene::GUI_Function() const
 	}
 
 	ImGui::Separator();
-
+	
+	if (ImGui::Button("Ball"))
+	{
+		ball->setShape(Ball);
+	}
 	if (ImGui::Button("Triangle"))
 	{
 		ball->setShape(Triangle);
@@ -100,10 +104,7 @@ void EndScene::GUI_Function() const
 	{
 		ball->setShape(Square);
 	}
-	if (ImGui::Button("Ball"))
-	{
-		ball->setShape(Ball);
-	}
+	
 
 	ImGui::Separator();
 
@@ -132,6 +133,7 @@ void EndScene::GUI_Function() const
 	ImGui::Text("Velocity of ball in y = %.2f ", ball->getRigidBody()->velocity.y);
 	ImGui::Text("Velocity of brick in x = %.2f ", player->getVector().x);
 	ImGui::Text("Velocity of brick in y = %.2f ", player->getVector().y);
+
 
 	ImGui::End();
 

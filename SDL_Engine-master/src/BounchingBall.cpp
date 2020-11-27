@@ -12,7 +12,7 @@ BounchingBall::BounchingBall(Ship * player) : accelX(100), accelY(100), player(p
 	
 	getRigidBody()->velocity = glm::vec2(accelX, accelY);
 	getTransform()->position = glm::vec2(300, 30);
-	friction = 0.f;
+	friction = 0.2f;
 	shapeChoice = 0;
 	//Triangle vertext into the vector
 	glm::vec2 a = { 0, 35 }, b = { 40, 35 }, c = { 20, 0 }, d , e, f;
